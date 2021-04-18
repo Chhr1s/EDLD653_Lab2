@@ -131,10 +131,17 @@ ability_dat
 ## Create a new data frame that lists the names of the pokemon with these specific abilities.
 
 ```{r}
-map_chr(abilities, 
-        ~.x$pokemon) %>% 
-  map_chr(~.x$name)
+abilities[[1]]$pokemon[[1]]$pokemon$name
 
+temp <- 
+  map(abilities, 
+    ~.x$pokemon %>% 
+      map_chr(~.x$pokemon$name) %>% 
+      stringr::str_replace_all("-", "") %>% 
+      knitr::combine_words()) %>%
+  set_names(ability_dat$ability_name) %>% 
+  as_tibble()
 
+temp
 ```
 
